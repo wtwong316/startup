@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/mongos --configdb 192.168.1.47:27019,192.168.1.41:27019,192.168.1.42:27019 --port 27017 --chunkSize 2 --logpath /mongodb/logs/mongos.log --fork

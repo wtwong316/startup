@@ -1,0 +1,8 @@
+com/tarsusdata/solr/repository/SolrReportRepository.class
+com/tarsusdata/solrt/repository/impl/SolrSearchBaseRepositoryFactory.class
+com/tarsusdata/solrt/repository/impl/SolrSearchReportRepositoryFactory.class
+com/tarsusdata/solr/impl/SolrReportServiceImpl.class
+com/tarsusdata/solrt/repository/impl/SolrReportRepositoryImpl.class
+com/tarsusdata/solrt/repository/impl/SolrBaseRepositoryImpl.class
+com/tarsusdata/solr/impl/SolrServiceImpl.class
+com/tarsusdata/solr/repository/SolrBaseRepository.class

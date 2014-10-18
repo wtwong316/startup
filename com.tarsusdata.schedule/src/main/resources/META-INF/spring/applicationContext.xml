@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:cloud="http://schema.cloudfoundry.org/spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+		http://schema.cloudfoundry.org/spring http://schema.cloudfoundry.org/spring/cloudfoundry-spring-0.8.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+   
+<!-- Activate annotation configured components -->
+  <context:annotation-config/>
+
+  <!-- Scan components for annotations within the configured package -->
+  <context:component-scan base-package="com.tarsusdata.schedule.impl, com.tarsusdata.schedule, com.tarsusdata.schedule.exception"/>
+   <bean name="triggerTask"
+  	class="com.tarsusdata.schedule.impl.Trigger"/>
+  <bean name="triggerJob"
+  	class="org.springframework.scheduling.quartz.JobDetailBean">
+	  <property name="jobClass"
+	  	value="com.tarsusdata.schedule.impl.TriggerJob" />
+	  <property name="jobDataAsMap">
+	    <map>
+	      <entry key="timeout" value="5" />
+	    </map>
+	  </property>
+	</bean>
+  <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	  <property name="targetObject" ref="triggerTask" />
+	  <property name="targetMethod" value="trigger"/>
+	  <property name="concurrent" value="true" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="triggers">
+	        <list>
+	            <ref bean="cronTrigger" />
+	            <ref bean="simpleTrigger" />
+	        </list>
+	    </property>
+	</bean>    
+	
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	    <!-- see the example of method invoking job above -->
+	    <property name="jobDetail" ref="jobDetail" />
+	    <!-- 10 seconds -->
+	    <property name="startDelay" value="10000" />
+	    <!-- repeat every 50 seconds -->
+	    <property name="repeatInterval" value="50000" />
+	</bean>
+
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	    <property name="jobDetail" ref="triggerJob" />
+	    <!-- run every morning at 6 AM -->
+	    <property name="cronExpression" value="0 0 6 * * ?" />
+	</bean>  
+</beans>

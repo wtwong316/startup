@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name = "TESTMONGO">
+	<test name="Regression">
+		<groups>
+			<run>
+				<include name="sanity"/>
+				<include name="reportDao"/>
+			</run>
+		</groups>	
+		<packages>
+			<package name="com.tarsusdata.mongo"/>
+			<package name="com.tarsusdata.mongo.impl"/>			
+		</packages>
+	</test>
+</suite>

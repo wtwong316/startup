@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Cameras Location</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+
+	// First, create an object containing LatLng and population for each city.
+	var citymap = {};
+	citymap['nanjing1'] = {
+  		center: new google.maps.LatLng(32.040168,118.798996),
+  		crimes: 10
+	};
+	citymap['nanjing2'] = {
+	  		center: new google.maps.LatLng(32.046556,118.795745),
+	  		crimes: 10
+	};	
+	citymap['nanjing3'] = {
+	  		center: new google.maps.LatLng(32.040777,118.799251),
+	  		crimes: 10
+	};		
+	citymap['nanjing4'] = {
+	  		center: new google.maps.LatLng(32.041078,118.794844),
+	  		crimes: 10
+	};
+	citymap['nanjing5'] = {
+	  		center: new google.maps.LatLng(32.042053,118.799608),
+	  		crimes: 10
+	};
+	
+	citymap['nanjing6'] = {
+	  		center: new google.maps.LatLng(32.0423,118.798361),
+	  		crimes: 10
+	};	
+	
+	citymap['nanjing7'] = {
+	  		center: new google.maps.LatLng(32.042046,118.802588),
+	  		crimes: 10
+	};	
+	
+	citymap['nanjing8'] = {
+	  		center: new google.maps.LatLng(32.040516,118.802883),
+	  		crimes: 10
+	};	
+	citymap['nanjing9'] = {
+	  		center: new google.maps.LatLng(32.04271,118.802019),
+	  		crimes: 10
+	};
+	citymap['nanjing10'] = {
+	  		center: new google.maps.LatLng(32.043234,118.794973),
+	  		crimes: 10
+	};
+
+	var cityCircle;
+	var map;
+	var poly;
+	function initialize() {
+
+	  // Create the map.
+	  var mapOptions = {
+	    zoom: 15,
+	    center: new google.maps.LatLng(32.040168,118.798996),
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  };
+	
+	  map = new google.maps.Map(document.getElementById('map-canvas'),
+	      mapOptions);
+	
+	  // Construct the circle for each value in citymap.
+	  // Note: We scale the population by a factor of 20.
+	  for (var city in citymap) {
+	    var populationOptions = {
+	      strokeColor: 'black',
+	      strokeOpacity: 0.8,
+	      strokeWeight: 2,
+	      fillColor: 'blue',
+	      fillOpacity: 0.35,
+	      map: map,
+	      center: citymap[city].center,
+	      radius: citymap[city].crimes
+	    };
+	    // Add the circle for this city to the map.
+	    cityCircle = new google.maps.Circle(populationOptions);
+	  }
+	  
+	  var lineSymbol = {
+		path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+	  };
+
+	  var path1 = [];
+	  var polyOptions = {
+		 path: path1,
+		 strokeColor: 'blue',
+		 strokeOpacity: 0.8,
+		 strokeWeight: 4,
+	    icons: [{
+	        icon: lineSymbol,
+	        offset: '100%'
+	      }],
+	  };
+	  poly = new google.maps.Polyline(polyOptions);
+	  poly.setMap(map);
+
+	}
+
+	function calcRoute(latitude, longitude) {
+		//alert("longitude");  
+		var path = poly.getPath();
+		path.push( new google.maps.LatLng(latitude, longitude));
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);    
+
+      function sleep(delay) {
+        var start = new Date().getTime();
+        while (new Date().getTime() < start + delay);
+      }
+    </script> 
+  </head>
+  <body>
+     <div id="panel">
+      <input onclick="calcRoute('32.041069','118.794592');
+    	  			  calcRoute('32.040641','118.7992');	  
+    	  			  calcRoute('32.040516','118.802883');	  			  
+    	  			  calcRoute('32.042046','118.802588');
+    	  			  calcRoute('32.042078','118.799318');
+    	  			  calcRoute('32.043401','118.79501');
+                     " 
+      	type=button value="Tracking">
+   
+    </div> 
+    <div id="map-canvas"></div>
+    
+  </body>
+</html>

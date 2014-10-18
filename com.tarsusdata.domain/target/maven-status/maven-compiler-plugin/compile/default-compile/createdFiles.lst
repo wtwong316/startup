@@ -1,0 +1,5 @@
+com/tarsusdata/domain/User.class
+com/tarsusdata/domain/Report.class
+com/tarsusdata/domain/ImportData.class
+com/tarsusdata/domain/BaseDomainObject.class
+com/tarsusdata/domain/Schedule.class
